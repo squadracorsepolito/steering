@@ -30,7 +30,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "driver/qspi.h"
+#include "lvgl/lvgl.h"
+#include "lvgl/demos/lv_demos.h"
+#include "sw/lvgl_port_lcd.h"
+#include "sw/lvgl_port_touchpad.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -145,12 +149,25 @@ Error_Handler();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
+	BSP_QSPI_Init_t qspi_init;
+	qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
+	qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
+	qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+	BSP_QSPI_Init(&qspi_init);
+	BSP_QSPI_EnableMemoryMappedMode(0);
+
+	lv_init();
+	LCD_init();
+//	touchpad_init();
+	lv_demo_widgets();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		HAL_Delay(5);
+		lv_task_handler();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -22,7 +22,7 @@
 *****************************************************************************
 ** @attention
 **
-** Copyright (c) 2022 STMicroelectronics.
+** Copyright (c) 2021 STMicroelectronics.
 ** All rights reserved.
 **
 ** This software is licensed under terms that can be found in the LICENSE file
@@ -50,6 +50,7 @@ MEMORY
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
+  QSPI (rx)      : ORIGIN = 0x90000000, LENGTH = 16M
 }
 
 /* Sections */
@@ -175,7 +176,15 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM_D1
-
+  
+  .ExtQSPIFlashSection : /*The `(NOLOAD)' directive will mark a section to not be loaded at run time. 
+  The linker will process the section normally, but will mark it so that a program loader will not load it into memory. 
+  For example, in the script sample below, the ExtQSPIFlashSection section is addressed at memory location `0x9000000' and does not need to be loaded when the program is run. The contents of the ExtQSPIFlashSection section will appear in the linker output file as usual.*/
+  {
+   . = ALIGN(0x4);
+  } >QSPI
+  
+  .ARM.attributes 0 : { *(.ARM.attributes) }
   /* Remove information from the compiler libraries */
   /DISCARD/ :
   {
@@ -184,5 +193,6 @@ SECTIONS
     libgcc.a ( * )
   }
 
-  .ARM.attributes 0 : { *(.ARM.attributes) }
+
+ 
 }

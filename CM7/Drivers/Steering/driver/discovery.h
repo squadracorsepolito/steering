@@ -1,25 +1,25 @@
 /**
-  ******************************************************************************
-  * @file    discovery.h
-  * @author  MCD Application Team
-  * @brief   This file contains definitions for STM32H745I-DISCO:
-  *          LEDs
-  *          push-buttons
-  *          COM ports
-  *          hardware resources.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    discovery.h
+ * @author  MCD Application Team
+ * @brief   This file contains definitions for STM32H745I-DISCO:
+ *          LEDs
+ *          push-buttons
+ *          COM ports
+ *          hardware resources.
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef H
@@ -41,16 +41,16 @@
   #endif
 #endif
 /** @addtogroup BSP
-  * @{
-  */
+ * @{
+ */
 
 /** @addtogroup STM32H745I_DISCO
-  * @{
-  */
+ * @{
+ */
 
 /** @addtogroup LOW_LEVEL
-  * @{
-  */
+ * @{
+ */
 
 /** @defgroup LOW_LEVEL_Exported_Types Exported Types
  * @{
@@ -58,23 +58,17 @@
 
 typedef enum
 {
-  LED1 = 0,
-  LED_GREEN = LED1,
-  LED2 = 1,
-  LED_RED = LED2,
-  LEDn
+	LED1 = 0, LED_GREEN = LED1, LED2 = 1, LED_RED = LED2, LEDn
 } Led_TypeDef;
 
 typedef enum
 {
-  BUTTON_USER = 0U,
-  BUTTONn
+	BUTTON_USER = 0U, BUTTONn
 } Button_TypeDef;
 
 typedef enum
 {
-  BUTTON_MODE_GPIO = 0U,
-  BUTTON_MODE_EXTI = 1U
+	BUTTON_MODE_GPIO = 0U, BUTTON_MODE_EXTI = 1U
 } ButtonMode_TypeDef;
 
 #if (USE_BSP_COM_FEATURE > 0)
@@ -131,23 +125,23 @@ typedef struct
 #endif
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LOW_LEVEL_Exported_Constants Exported Constants
-  * @{
-  */
+ * @{
+ */
 
 /**
-  * @brief  Define for STM32H745I_DISCO board
-  */
+ * @brief  Define for STM32H745I_DISCO board
+ */
 
 #if !defined (USE_STM32H745I_DISCO)
- #define USE_STM32H745I_DISCO
+#define USE_STM32H745I_DISCO
 #endif
 /**
-  * @brief STM32H745I Discovery BSP Driver version number V3.3.0
-  */
+ * @brief STM32H745I Discovery BSP Driver version number V3.3.0
+ */
 #define BSP_VERSION_MAIN   (0x03) /*!< [31:24] main version */
 #define BSP_VERSION_SUB1   (0x03) /*!< [23:16] sub1 version */
 #define BSP_VERSION_SUB2   (0x00) /*!< [15:8]  sub2 version */
@@ -160,14 +154,13 @@ typedef struct
 #define BSP_BOARD_ID    "MB1381B";
 
 /** @defgroup LOW_LEVEL_LED EVAL LOW LEVEL LED
-  * @{
-  */
+ * @{
+ */
 #define LED1_GPIO_PORT                   GPIOJ
 #define LED1_PIN                         GPIO_PIN_2
 
 #define LED2_GPIO_PORT                   GPIOI
 #define LED2_PIN                         GPIO_PIN_13
-
 
 #define LED1_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOJ_CLK_ENABLE()
 #define LED1_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOJ_CLK_DISABLE()
@@ -175,19 +168,19 @@ typedef struct
 #define LED2_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOI_CLK_ENABLE()
 #define LED2_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOI_CLK_DISABLE()
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LOW_LEVEL_BUTTON LOW LEVEL BUTTON
-  * @{
-  */
+ * @{
+ */
 /* Button state */
 #define BUTTON_RELEASED                    0U
 #define BUTTON_PRESSED                     1U
 
 /**
-  * @brief USER push-button
-  */
+ * @brief USER push-button
+ */
 #define BUTTON_USER_PIN                   GPIO_PIN_13
 #define BUTTON_USER_GPIO_PORT             GPIOC
 #define BUTTON_USER_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOC_CLK_ENABLE()
@@ -196,12 +189,12 @@ typedef struct
 #define BUTTON_USER_EXTI_LINE             EXTI_LINE_13
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LOW_LEVEL_COM LOW LEVEL COM
-  * @{
-  */
+ * @{
+ */
 #if (USE_BSP_COM_FEATURE > 0)
 /**
  * @brief Definition for COM port1, connected to USART3
@@ -226,28 +219,28 @@ typedef struct
 #define MX_UART_InitTypeDef COM_InitTypeDef
 #endif
 /**
-  * @}
-  */
+ * @}
+ */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @addtogroup LOW_LEVEL_Exported_Variables
-  * @{
-  */
+ * @{
+ */
 extern EXTI_HandleTypeDef hpb_exti[];
 #if (USE_BSP_COM_FEATURE > 0)
 extern UART_HandleTypeDef hcom_uart[];
 extern USART_TypeDef* COM_USART[];
 #endif
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LOW_LEVEL_Exported_FunctionsPrototypes Exported Functions Prototypes
-  * @{
-  */
+ * @{
+ */
 int32_t BSP_GetVersion(void);
 const uint8_t* BSP_GetBoardName(void);
 const uint8_t* BSP_GetBoardID(void);
@@ -257,11 +250,11 @@ int32_t BSP_LED_DeInit(Led_TypeDef Led);
 int32_t BSP_LED_On(Led_TypeDef Led);
 int32_t BSP_LED_Off(Led_TypeDef Led);
 int32_t BSP_LED_Toggle(Led_TypeDef Led);
-int32_t BSP_LED_GetState (Led_TypeDef Led) ;
+int32_t BSP_LED_GetState(Led_TypeDef Led);
 int32_t BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode);
 int32_t BSP_PB_DeInit(Button_TypeDef Button);
-int32_t  BSP_PB_GetState(Button_TypeDef Button);
-void     BSP_PB_Callback(Button_TypeDef Button);
+int32_t BSP_PB_GetState(Button_TypeDef Button);
+void BSP_PB_Callback(Button_TypeDef Button);
 #if (USE_BSP_COM_FEATURE > 0)
 int32_t  BSP_COM_Init(COM_TypeDef COM, COM_InitTypeDef *COM_Init);
 int32_t  BSP_COM_DeInit(COM_TypeDef COM);
@@ -277,21 +270,20 @@ HAL_StatusTypeDef MX_USART3_Init(UART_HandleTypeDef *huart, MX_UART_InitTypeDef 
 #endif /* (USE_BSP_COM_FEATURE > 0)  */
 void BSP_PB_IRQHandler(Button_TypeDef Button);
 
+/**
+ * @}
+ */
+/**
+ * @}
+ */
 
 /**
-  * @}
-  */
-/**
-  * @}
-  */
+ * @}
+ */
 
 /**
-  * @}
-  */
-
-/**
-  * @}
-  */
+ * @}
+ */
 
 #ifdef __cplusplus
 }

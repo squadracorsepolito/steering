@@ -1,37 +1,11 @@
-/**
-  ******************************************************************************
-  * @file    lcd.h
-  * @author  MCD Application Team
-  * @brief   This file contains the common defines and functions prototypes for
-  *          the lcd.c driver.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef LCD_H
 #define LCD_H
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-/* Includes ------------------------------------------------------------------*/
 #include "driver_conf.h"
 #include "errno.h"
 
 #ifndef USE_LCD_CTRL_RK043FN48H
-  #define USE_LCD_CTRL_RK043FN48H 1
+#define USE_LCD_CTRL_RK043FN48H 1
 #endif
 
 #if (USE_LCD_CTRL_RK043FN48H == 1)
@@ -39,21 +13,7 @@
 #include "rk043fn48h/rk043fn48h.h"
 #endif
 #include "generic/generic_lcd.h"
-/** @addtogroup BSP
-  * @{
-  */
 
-/** @addtogroup STM32H745I_DISCO
-  * @{
-  */
-
-/** @defgroup LCD LCD
-  * @{
-  */
-
-/** @defgroup LCD_Exported_Constants Exported Constants
-  * @{
-  */
 #define LCD_INSTANCES_NBR          1U
 
 #define LCD_ORIENTATION_PORTRAIT         0x00U /* Portrait orientation choice of LCD screen               */
@@ -67,8 +27,8 @@
 #define BSP_LCD_RELOAD_VERTICAL_BLANKING LTDC_RELOAD_VERTICAL_BLANKING /* Vertical Blanking Reload */
 
 /**
-  * @brief LCD special pins
-  */
+ * @brief LCD special pins
+ */
 /* LCD reset pin */
 #define LCD_RESET_Pin                         GPIO_PIN_12
 #define LCD_RESET_PULL                        GPIO_NOPULL
@@ -94,8 +54,8 @@
 #define LCD_DISPLAY_MODE_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOD_CLK_ENABLE()
 #define LCD_DISPLAY_MODE_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOD_CLK_DISABLE()
 /**
-  * @brief Definition for LCD Timer used to control the Brightnes
-  */
+ * @brief Definition for LCD Timer used to control the Brightnes
+ */
 #define LCD_TIMx                           TIM8
 #define LCD_TIMx_CLK_ENABLE()              __HAL_RCC_TIM8_CLK_ENABLE()
 #define LCD_TIMx_CLK_DISABLE()             __HAL_RCC_TIM8_CLK_DISABLE()
@@ -183,82 +143,56 @@
 #define LCD_COLOR_ARGB8888_ST_GRAY_DARK       0xFF4F5251UL
 #define LCD_COLOR_ARGB8888_ST_GRAY            0xFF90989EUL
 #define LCD_COLOR_ARGB8888_ST_GRAY_LIGHT      0xFFB9C4CAUL
-/**
-  * @}
-  */
 
-/** @defgroup LCD_Exported_Types Exported Types
-  * @{
-  */
 typedef struct
 {
-uint32_t XSize;
-uint32_t YSize;
-uint32_t ActiveLayer;
-uint32_t PixelFormat;
-uint32_t BppFactor;
-uint32_t IsMspCallbacksValid;
-uint32_t ReloadEnable;
-uint32_t Brightness;
+	uint32_t XSize;
+	uint32_t YSize;
+	uint32_t ActiveLayer;
+	uint32_t PixelFormat;
+	uint32_t BppFactor;
+	uint32_t IsMspCallbacksValid;
+	uint32_t ReloadEnable;
+	uint32_t Brightness;
 } BSP_LCD_Ctx_t;
 
 typedef struct
 {
-uint32_t X0;
-uint32_t X1;
-uint32_t Y0;
-uint32_t Y1;
-uint32_t PixelFormat;
-uint32_t Address;
-}MX_LTDC_LayerConfig_t;
+	uint32_t X0;
+	uint32_t X1;
+	uint32_t Y0;
+	uint32_t Y1;
+	uint32_t PixelFormat;
+	uint32_t Address;
+} MX_LTDC_LayerConfig_t;
 
 #define BSP_LCD_LayerConfig_t MX_LTDC_LayerConfig_t
 
-#if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
-typedef struct
-{
-  pLTDC_CallbackTypeDef            pMspLtdcInitCb;
-  pLTDC_CallbackTypeDef            pMspLtdcDeInitCb;
-}BSP_LCD_Cb_t;
-#endif /*(USE_HAL_LTDC_REGISTER_CALLBACKS == 1) */
-/**
-  * @}
-  */
-
-/** @addtogroup LCD_Exported_Variables
-* @{
-*/
 extern const LCD_UTILS_Drv_t LCD_Driver;
-extern DMA2D_HandleTypeDef hlcd_dma2d;
-extern LTDC_HandleTypeDef  hlcd_ltdc;
-extern BSP_LCD_Ctx_t       Lcd_Ctx[];
+extern DMA2D_HandleTypeDef hdma2d;
+extern LTDC_HandleTypeDef hltdc;
+extern BSP_LCD_Ctx_t Lcd_Ctx[];
 
-/**
-  * @}
-  */
-
-/** @defgroup LCD_Exported_FunctionsPrototypes Exported Functions Prototypes
-  * @{
-  */
 /* Initialization APIs */
 int32_t BSP_LCD_Init(uint32_t Instance, uint32_t Orientation);
-int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation, uint32_t PixelFormat, uint32_t Width, uint32_t Height);
+int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation,
+		uint32_t PixelFormat, uint32_t Width, uint32_t Height);
 int32_t BSP_LCD_DeInit(uint32_t Instance);
-
-/* Register Callbacks APIs */
-#if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
-int32_t BSP_LCD_RegisterDefaultMspCallbacks (uint32_t Instance);
-int32_t BSP_LCD_RegisterMspCallbacks (uint32_t Instance, BSP_LCD_Cb_t *CallBacks);
-#endif /*(USE_HAL_LTDC_REGISTER_CALLBACKS == 1) */
 
 /* LCD specific APIs: Layer control & LCD HW reset */
 int32_t BSP_LCD_Relaod(uint32_t Instance, uint32_t ReloadType);
-int32_t BSP_LCD_ConfigLayer(uint32_t Instance, uint32_t LayerIndex, BSP_LCD_LayerConfig_t *Config);
-int32_t BSP_LCD_SetLayerVisible(uint32_t Instance, uint32_t LayerIndex, FunctionalState State);
-int32_t BSP_LCD_SetTransparency(uint32_t Instance, uint32_t LayerIndex, uint8_t Transparency);
-int32_t BSP_LCD_SetLayerAddress(uint32_t Instance, uint32_t LayerIndex, uint32_t Address);
-int32_t BSP_LCD_SetLayerWindow(uint32_t Instance, uint16_t LayerIndex, uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
-int32_t BSP_LCD_SetColorKeying(uint32_t Instance, uint32_t LayerIndex, uint32_t Color);
+int32_t BSP_LCD_ConfigLayer(uint32_t Instance, uint32_t LayerIndex,
+BSP_LCD_LayerConfig_t *Config);
+int32_t BSP_LCD_SetLayerVisible(uint32_t Instance, uint32_t LayerIndex,
+		FunctionalState State);
+int32_t BSP_LCD_SetTransparency(uint32_t Instance, uint32_t LayerIndex,
+		uint8_t Transparency);
+int32_t BSP_LCD_SetLayerAddress(uint32_t Instance, uint32_t LayerIndex,
+		uint32_t Address);
+int32_t BSP_LCD_SetLayerWindow(uint32_t Instance, uint16_t LayerIndex,
+		uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
+int32_t BSP_LCD_SetColorKeying(uint32_t Instance, uint32_t LayerIndex,
+		uint32_t Color);
 int32_t BSP_LCD_ResetColorKeying(uint32_t Instance, uint32_t LayerIndex);
 
 /* LCD generic APIs: Display control */
@@ -270,43 +204,30 @@ int32_t BSP_LCD_GetXSize(uint32_t Instance, uint32_t *XSize);
 int32_t BSP_LCD_GetYSize(uint32_t Instance, uint32_t *YSize);
 
 /* LCD generic APIs: Draw operations. This list of APIs is required for
-lcd gfx utilities */
+ lcd gfx utilities */
 int32_t BSP_LCD_SetActiveLayer(uint32_t Instance, uint32_t LayerIndex);
 int32_t BSP_LCD_GetPixelFormat(uint32_t Instance, uint32_t *PixelFormat);
-int32_t BSP_LCD_DrawBitmap(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pBmp);
-int32_t BSP_LCD_DrawHLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Length, uint32_t Color);
-int32_t BSP_LCD_DrawVLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Length, uint32_t Color);
-int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pData, uint32_t Width, uint32_t Height);
-int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Width, uint32_t Height, uint32_t Color);
-int32_t BSP_LCD_ReadPixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t *Color);
-int32_t BSP_LCD_WritePixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Color);
+int32_t BSP_LCD_DrawBitmap(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint8_t *pBmp);
+int32_t BSP_LCD_DrawHLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint32_t Length, uint32_t Color);
+int32_t BSP_LCD_DrawVLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint32_t Length, uint32_t Color);
+int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint8_t *pData, uint32_t Width, uint32_t Height);
+int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint32_t Width, uint32_t Height, uint32_t Color);
+int32_t BSP_LCD_ReadPixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint32_t *Color);
+int32_t BSP_LCD_WritePixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos,
+		uint32_t Color);
 
 //These functions deprecated
 /* LCD MX APIs */
-HAL_StatusTypeDef MX_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc, uint32_t LayerIndex, MX_LTDC_LayerConfig_t *Config);
+HAL_StatusTypeDef MX_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc,
+		uint32_t LayerIndex, MX_LTDC_LayerConfig_t *Config);
 HAL_StatusTypeDef MX_LTDC_ClockConfig(LTDC_HandleTypeDef *hltdc);
-HAL_StatusTypeDef MX_LTDC_Init(LTDC_HandleTypeDef *hltdc, uint32_t Width, uint32_t Height);
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
-}
-#endif
+HAL_StatusTypeDef MX_LTDC_Init(LTDC_HandleTypeDef *hltdc, uint32_t Width,
+		uint32_t Height);
 
 #endif /* LCD_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
