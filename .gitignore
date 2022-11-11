@@ -1,0 +1,14 @@
+.metadata
+.settings
+[Rr]elease
+[Dd]ebug
+.launch
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
