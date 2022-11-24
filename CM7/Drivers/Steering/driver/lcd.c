@@ -44,21 +44,52 @@ int32_t BSP_LCD_Init(uint32_t Instance, uint32_t Orientation)
  * @retval BSP status
  */
 int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation,
-		uint32_t PixelFormat, uint32_t Width, uint32_t Height)
-{
+		uint32_t PixelFormat, uint32_t Width, uint32_t Height) {
 	int32_t ret = BSP_ERROR_NONE;
+	uint32_t ltdc_pixel_format;
+	uint32_t ft5336_id = 0;
 	FT5336_Object_t ts_comp_obj;
 	FT5336_IO_t io_comp_ctx;
-	uint32_t ft5336_id = 0;
 
-	if ((Orientation > LCD_ORIENTATION_LANDSCAPE) || (Instance >= LCD_INSTANCES_NBR)) {
+	if ((Orientation > LCD_ORIENTATION_LANDSCAPE)
+			|| (Instance >= LCD_INSTANCES_NBR)
+			|| ((PixelFormat != LCD_PIXEL_FORMAT_RGB565)
+					&& (PixelFormat != LTDC_PIXEL_FORMAT_ARGB8888))) {
 		ret = BSP_ERROR_WRONG_PARAM;
 	} else {
+		if (PixelFormat == LCD_PIXEL_FORMAT_RGB565) {
+			ltdc_pixel_format = LTDC_PIXEL_FORMAT_RGB565;
+			Lcd_Ctx[Instance].BppFactor = 2U;
+		} else /* LCD_PIXEL_FORMAT_RGB888 */
+		{
+			ltdc_pixel_format = LTDC_PIXEL_FORMAT_ARGB8888;
+			Lcd_Ctx[Instance].BppFactor = 4U;
+		}
 
 		/* Store pixel format, xsize and ysize information */
 		Lcd_Ctx[Instance].PixelFormat = PixelFormat;
 		Lcd_Ctx[Instance].XSize = Width;
 		Lcd_Ctx[Instance].YSize = Height;
+
+		/* Initializes peripherals instance value */
+		hltdc.Instance = LTDC;
+		hdma2d.Instance = DMA2D;
+
+		/* MSP initialization */
+#if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
+    /* Register the LTDC MSP Callbacks */
+    if(Lcd_Ctx[Instance].IsMspCallbacksValid == 0U)
+    {
+      if(BSP_LCD_RegisterDefaultMspCallbacks(0) != BSP_ERROR_NONE)
+      {
+        return BSP_ERROR_PERIPH_FAILURE;
+      }
+    }
+#else
+		// LTDC_MspInit(&hltdc);
+#endif
+
+		// DMA2D_MspInit(&hdma2d);
 
 		io_comp_ctx.Init = BSP_I2C4_Init;
 		io_comp_ctx.ReadReg = BSP_I2C4_ReadReg;
@@ -79,9 +110,6 @@ int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation,
 				return BSP_ERROR_PERIPH_FAILURE;
 			}
 #endif /* DATA_IN_ExtSDRAM */
-
-			/* Configure default LTDC Layer 0. This configuration can be override by calling
-			 BSP_LCD_ConfigLayer() at application level */
 
 			/* By default the reload is activated and executed immediately */
 			Lcd_Ctx[Instance].ReloadEnable = 1U;
