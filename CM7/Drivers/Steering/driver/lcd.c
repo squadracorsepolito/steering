@@ -47,24 +47,13 @@ int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation,
 		uint32_t PixelFormat, uint32_t Width, uint32_t Height)
 {
 	int32_t ret = BSP_ERROR_NONE;
-	uint32_t ltdc_pixel_format;
 	FT5336_Object_t ts_comp_obj;
 	FT5336_IO_t io_comp_ctx;
+	uint32_t ft5336_id = 0;
 
-	if ((Orientation > LCD_ORIENTATION_LANDSCAPE)
-			|| (Instance >= LCD_INSTANCES_NBR)
-			|| ((PixelFormat != LCD_PIXEL_FORMAT_RGB565)
-					&& (PixelFormat != LTDC_PIXEL_FORMAT_ARGB8888))) {
+	if ((Orientation > LCD_ORIENTATION_LANDSCAPE) || (Instance >= LCD_INSTANCES_NBR)) {
 		ret = BSP_ERROR_WRONG_PARAM;
 	} else {
-		if (PixelFormat == LCD_PIXEL_FORMAT_RGB565) {
-			ltdc_pixel_format = LTDC_PIXEL_FORMAT_RGB565;
-			Lcd_Ctx[Instance].BppFactor = 2U;
-		} else /* LCD_PIXEL_FORMAT_RGB888 */
-		{
-			ltdc_pixel_format = LTDC_PIXEL_FORMAT_ARGB8888;
-			Lcd_Ctx[Instance].BppFactor = 4U;
-		}
 
 		/* Store pixel format, xsize and ysize information */
 		Lcd_Ctx[Instance].PixelFormat = PixelFormat;
@@ -76,6 +65,10 @@ int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation,
 		io_comp_ctx.Address = TS_I2C_ADDRESS;
 		if (FT5336_RegisterBusIO(&ts_comp_obj, &io_comp_ctx) < 0) {
 			ret = BSP_ERROR_COMPONENT_FAILURE;
+		} else if (FT5336_ReadID(&ts_comp_obj, &ft5336_id) < 0) {
+			ret = BSP_ERROR_COMPONENT_FAILURE;
+		} else if (ft5336_id != FT5336_ID) {
+			ret = BSP_ERROR_UNKNOWN_COMPONENT;
 		}
 
 		if (ret == BSP_ERROR_NONE) {

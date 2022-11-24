@@ -64,8 +64,8 @@ void LCD_init()
 	/* Initialize the LCD */
 	BSP_LCD_Init(LCD_INSTANCE, LCD_ORIENTATION_LANDSCAPE);
 
-//	BSP_LCD_SetBrightness(LCD_INSTANCE, 100);
-//	BSP_LCD_DisplayOn(LCD_INSTANCE);
+	BSP_LCD_SetBrightness(LCD_INSTANCE, 100);
+	BSP_LCD_DisplayOn(LCD_INSTANCE);
 
 	lv_disp_draw_buf_init(&disp_buf, (void*)LVGL_BUFFER_ADDR_AT_SDRAM,
 			(void*)LVGL_BUFFER_2_ADDR_AT_SDRAM,

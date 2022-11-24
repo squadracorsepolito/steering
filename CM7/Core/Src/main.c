@@ -158,7 +158,7 @@ Error_Handler();
 
 	lv_init();
 	LCD_init();
-//	touchpad_init();
+	touchpad_init();
 	lv_demo_widgets();
   /* USER CODE END 2 */
 
@@ -166,8 +166,8 @@ Error_Handler();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_Delay(5);
 		lv_task_handler();
+		HAL_Delay(5);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

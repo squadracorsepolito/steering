@@ -65,8 +65,6 @@ static uint32_t I2c_valid_timing_nbr = 0;
 static osSemaphoreId BspI2cSemaphore = 0;
 #endif
 
-I2C_HandleTypeDef hbus_i2c4;
-
 static int32_t I2C4_WriteReg(uint16_t DevAddr, uint16_t MemAddSize,
 		uint16_t Reg, uint8_t *pData, uint16_t Length);
 static int32_t I2C4_ReadReg(uint16_t DevAddr, uint16_t MemAddSize, uint16_t Reg,
@@ -84,8 +82,6 @@ static void I2C_Compute_PRESC_SCLDEL_SDADEL(uint32_t clock_src_freq,
 int32_t BSP_I2C4_Init(void)
 {
 	int32_t ret = BSP_ERROR_NONE;
-
-	hbus_i2c4.Instance = BUS_I2C4;
 
 	if (I2c4InitCounter == 0U) {
 		I2c4InitCounter++;
@@ -106,7 +102,7 @@ int32_t BSP_I2C4_DeInit(void)
 
 	if (I2c4InitCounter == 0U) {
 		/* Init the I2C */
-		if (HAL_I2C_DeInit(&hbus_i2c4) != HAL_OK) {
+		if (HAL_I2C_DeInit(&hi2c4) != HAL_OK) {
 			ret = BSP_ERROR_BUS_FAILURE;
 		}
 	}
@@ -133,7 +129,7 @@ int32_t BSP_I2C4_WriteReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData,
 	if (I2C4_WriteReg(DevAddr, Reg, I2C_MEMADD_SIZE_8BIT, pData, Length) == 0) {
 		ret = BSP_ERROR_NONE;
 	} else {
-		if (HAL_I2C_GetError(&hbus_i2c4) == HAL_I2C_ERROR_AF) {
+		if (HAL_I2C_GetError(&hi2c4) == HAL_I2C_ERROR_AF) {
 			ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
 		} else {
 			ret = BSP_ERROR_PERIPH_FAILURE;
@@ -165,7 +161,7 @@ int32_t BSP_I2C4_ReadReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData,
 	if (I2C4_ReadReg(DevAddr, Reg, I2C_MEMADD_SIZE_8BIT, pData, Length) == 0) {
 		ret = BSP_ERROR_NONE;
 	} else {
-		if (HAL_I2C_GetError(&hbus_i2c4) == HAL_I2C_ERROR_AF) {
+		if (HAL_I2C_GetError(&hi2c4) == HAL_I2C_ERROR_AF) {
 			ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
 		} else {
 			ret = BSP_ERROR_PERIPH_FAILURE;
@@ -197,7 +193,7 @@ int32_t BSP_I2C4_WriteReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData,
 	if (I2C4_WriteReg(DevAddr, Reg, I2C_MEMADD_SIZE_16BIT, pData, Length) == 0) {
 		ret = BSP_ERROR_NONE;
 	} else {
-		if (HAL_I2C_GetError(&hbus_i2c4) == HAL_I2C_ERROR_AF) {
+		if (HAL_I2C_GetError(&hi2c4) == HAL_I2C_ERROR_AF) {
 			ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
 		} else {
 			ret = BSP_ERROR_PERIPH_FAILURE;
@@ -229,7 +225,7 @@ int32_t BSP_I2C4_ReadReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData,
 	if (I2C4_ReadReg(DevAddr, Reg, I2C_MEMADD_SIZE_16BIT, pData, Length) == 0) {
 		ret = BSP_ERROR_NONE;
 	} else {
-		if (HAL_I2C_GetError(&hbus_i2c4) == HAL_I2C_ERROR_AF) {
+		if (HAL_I2C_GetError(&hi2c4) == HAL_I2C_ERROR_AF) {
 			ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
 		} else {
 			ret = BSP_ERROR_PERIPH_FAILURE;
@@ -256,7 +252,7 @@ int32_t BSP_I2C4_IsReady(uint16_t DevAddr, uint32_t Trials)
   /* Get semaphore to prevent multiple I2C access */
   osSemaphoreWait(BspI2cSemaphore, osWaitForever);
 #endif
-	if (HAL_I2C_IsDeviceReady(&hbus_i2c4, DevAddr, Trials, 1000) != HAL_OK) {
+	if (HAL_I2C_IsDeviceReady(&hi2c4, DevAddr, Trials, 1000) != HAL_OK) {
 		ret = BSP_ERROR_BUSY;
 	}
 #if defined(BSP_USE_CMSIS_OS)
@@ -484,7 +480,7 @@ static uint32_t I2C_Compute_SCLL_SCLH(uint32_t clock_src_freq,
 static int32_t I2C4_WriteReg(uint16_t DevAddr, uint16_t Reg,
 		uint16_t MemAddSize, uint8_t *pData, uint16_t Length)
 {
-	if (HAL_I2C_Mem_Write(&hbus_i2c4, DevAddr, Reg, MemAddSize, pData, Length,
+	if (HAL_I2C_Mem_Write(&hi2c4, DevAddr, Reg, MemAddSize, pData, Length,
 			1000) == HAL_OK) {
 		return BSP_ERROR_NONE;
 	}
@@ -504,7 +500,7 @@ static int32_t I2C4_WriteReg(uint16_t DevAddr, uint16_t Reg,
 static int32_t I2C4_ReadReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize,
 		uint8_t *pData, uint16_t Length)
 {
-	if (HAL_I2C_Mem_Read(&hbus_i2c4, DevAddr, Reg, MemAddSize, pData, Length,
+	if (HAL_I2C_Mem_Read(&hi2c4, DevAddr, Reg, MemAddSize, pData, Length,
 			1000) == HAL_OK) {
 		return BSP_ERROR_NONE;
 	}

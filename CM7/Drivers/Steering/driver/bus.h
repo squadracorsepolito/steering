@@ -28,7 +28,7 @@
 #define BUS_I2C4_FREQUENCY  100000U /* Frequency of I2Cn = 100 KHz*/
 #endif
 
-extern I2C_HandleTypeDef hbus_i2c4;
+extern I2C_HandleTypeDef hi2c4;
 
 int32_t BSP_I2C4_Init(void);
 int32_t BSP_I2C4_DeInit(void);
