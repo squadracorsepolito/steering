@@ -7,7 +7,7 @@
 int32_t BSP_SDRAM_Init()
 {
 	int32_t ret = BSP_ERROR_NONE;
-	static MT48LC4M32B2_Context_t pRegMode;
+	static MT48LC4M32B2_ContextTypeDef pRegMode;
 
 	/* External memory mode register configuration */
 	pRegMode.TargetBank = FMC_SDRAM_CMD_TARGET_BANK2;

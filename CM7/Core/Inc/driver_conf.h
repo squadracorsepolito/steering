@@ -36,11 +36,6 @@
 #define LCD_LAYER_0_ADDRESS                 0xD0000000U //SDRAM BANK2 Address
 #define LCD_LAYER_1_ADDRESS                 0xD0200000U
 
-/* Audio codecs defines */
-#define USE_AUDIO_CODEC_WM8994              1U
-
-/* Default Audio IN internal buffer size */
-#define DEFAULT_AUDIO_IN_BUFFER_SIZE        64U
 /* TS supported features defines */
 #define USE_TS_GESTURE                      1U
 #define USE_TS_MULTI_TOUCH                  1U

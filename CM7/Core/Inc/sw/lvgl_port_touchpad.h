@@ -1,29 +1,6 @@
-/*
- * lvgl_port_touchpad.h
- *
- *  Created on: 23 Dec 2021
- *      Author: Ahmet Alperen Bulut / github.com/ahmetalperenbulut
- */
+#ifndef LVGL_PORT_TOUCHPAD_H
+#define LVGL_PORT_TOUCHPAD_H
 
-#ifndef INC_LVGL_PORT_TOUCHPAD_H_
-#define INC_LVGL_PORT_TOUCHPAD_H_
+void TS_Init(void);
 
-/*********************
- *      INCLUDES
- *********************/
-
-/*********************
- *      DEFINES
- *********************/
-
-/**********************
- *      TYPEDEFS
- **********************/
-
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
-void touchpad_init(void);
-
-
-#endif /* INC_LVGL_PORT_TOUCHPAD_H_ */
+#endif /* LVGL_PORT_TOUCHPAD_H */

@@ -182,7 +182,7 @@ int32_t BSP_QSPI_EraseBlock(uint32_t BlockAddress, BSP_QSPI_Erase_t BlockSize)
 	} else {
 		/* Issue Block Erase command */
 		if (MT25TL01G_BlockErase(&hqspi, QSPI_Ctx.InterfaceMode, BlockAddress,
-				(MT25TL01G_Erase_t) BlockSize) != MT25TL01G_OK) {
+				(MT25TL01G_EraseTypeDef) BlockSize) != MT25TL01G_OK) {
 			ret = BSP_ERROR_COMPONENT_FAILURE;
 		}
 	}

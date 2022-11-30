@@ -30,6 +30,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 #include "driver/qspi.h"
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
@@ -70,7 +71,23 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int __io_putchar(int ch)
+{
+  HAL_UART_Transmit(&huart3, (uint8_t *) &ch, 1, HAL_MAX_DELAY);
+  return 1;
+}
 
+int __io_getchar(void)
+{
+  uint8_t ch = 0;
+  HAL_UART_Receive(&huart3, &ch, 1, HAL_MAX_DELAY);
+  return ch;
+}
+
+uint64_t __time_uptime(void)
+{
+  return HAL_GetTick();
+}
 /* USER CODE END 0 */
 
 /**
@@ -149,17 +166,18 @@ Error_Handler();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
-	BSP_QSPI_Init_t qspi_init;
-	qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
-	qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
-	qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
-	BSP_QSPI_Init(&qspi_init);
-	BSP_QSPI_EnableMemoryMappedMode(0);
+  BSP_QSPI_Init_t qspi_init;
+  qspi_init.InterfaceMode = MT25TL01G_QPI_MODE;
+  qspi_init.TransferRate = MT25TL01G_DTR_TRANSFER;
+  qspi_init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+  BSP_QSPI_Init(&qspi_init);
+  BSP_QSPI_EnableMemoryMappedMode(0);
 
-	lv_init();
-	LCD_init();
-	touchpad_init();
-	lv_demo_widgets();
+  lv_init();
+  LCD_Init();
+  TS_Init();
+  lv_demo_widgets();
+  printf("Hello World!\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */

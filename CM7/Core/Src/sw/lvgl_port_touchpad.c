@@ -1,51 +1,15 @@
-/*
- * lvgl_port_touchpad.c
- *
- *  Created on: 23 Dec 2021
- *      Author: Ahmet Alperen Bulut / github.com/ahmetalperenbulut
- */
-
-
-/*********************
- *      INCLUDES
- *********************/
 #include "sw/lvgl_port_touchpad.h"
 #include "lvgl/src/hal/lv_hal.h"
 
-#include "driver/discovery.h"
 #include "driver/ts.h"
 
 #include "driver/lcd.h"
-/*********************
- *      DEFINES
- *********************/
-#define TS_INSTANCE		(0)
-/**********************
- *      TYPEDEFS
- **********************/
 
-/**********************
- *  STATIC PROTOTYPES
- **********************/
 static void touchpad_read(lv_indev_drv_t *drv, lv_indev_data_t *data);
 
-/**********************
- *  STATIC VARIABLES
- **********************/
 static TS_State_t TS_State;
 
-/**********************
- *      MACROS
- **********************/
-
-/**********************
- *   GLOBAL FUNCTIONS
- **********************/
-
-/**
- * Initialize your input devices here
- */
-void touchpad_init(void)
+void TS_Init(void)
 {
 	TS_Init_t hTS;
 
@@ -62,10 +26,6 @@ void touchpad_init(void)
 
 	lv_indev_drv_register(&indev_drv);
 }
-
-/**********************
- *   STATIC FUNCTIONS
- **********************/
 
 /**
  * Read an input device
