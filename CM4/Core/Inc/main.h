@@ -63,6 +63,7 @@ void Error_Handler(void);
 #define OSC32_IN_GPIO_Port GPIOC
 #define OSC_IN_Pin GPIO_PIN_0
 #define OSC_IN_GPIO_Port GPIOH
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

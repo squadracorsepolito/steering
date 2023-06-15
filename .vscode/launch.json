@@ -8,7 +8,6 @@
           "request": "launch",
           "type": "cortex-debug",
           "servertype": "openocd",
-          "preLaunchTask": "Build STM (M7)",
           "device": "stm32h745",
           "configFiles": [
               "openocd.cfg"
@@ -22,7 +21,6 @@
           "request": "attach",
           "type": "cortex-debug",
           "servertype": "openocd",
-          "preLaunchTask": "Build STM (M7)",
           "device": "stm32h745",
           "configFiles": [
               "openocd.cfg"
